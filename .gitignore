@@ -2,3 +2,10 @@
 /post-service/dist
 /user-service/node_modules
 /user-service/dist
+/.idea/.gitignore
+/.idea/material_theme_project_new.xml
+/.idea/modules.xml
+/.idea/nest-microservices.iml
+/.idea/prettier.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
