@@ -1,0 +1,18 @@
+{
+  "name": "nest-microservices",
+  "version": "1.0.0",
+  "description": "Nest.js microservices project",
+  "scripts": {
+    "dev": "concurrently \"yarn workspace user-service dev\" \"yarn workspace post-service dev\"",
+    "dev:user": "yarn workspace user-service dev",
+    "dev:post": "yarn workspace post-service dev"
+  },
+  "private": true,
+  "workspaces": [
+    "user-service",
+    "post-service"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
