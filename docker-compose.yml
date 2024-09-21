@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=123123
+      - MYSQL_DATABASE=test-base
+      - MYSQL_USER=test-user
+      - MYSQL_PASSWORD=dawawdawd
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - '8080:80'
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=test-user
+      - PMA_PASSWORD=dawawdawd
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    restart: always
+
+volumes:
+  mysql_data:
