@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
-import { EventPattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 
 @Controller('users')
 export class UsersController {
@@ -51,5 +51,10 @@ export class UsersController {
   @EventPattern('post_deleted')
   handlePostDeleted(data: { userId: number; postId: number }) {
     return this.usersService.removePost(data.userId, data.postId);
+  }
+
+  @MessagePattern('get_user')
+  getUser(id: number): Promise<User | null> {
+    return this.usersService.findOne(id);
   }
 }

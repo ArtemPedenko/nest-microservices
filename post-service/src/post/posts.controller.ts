@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Body,
+  Query,
+} from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { PostsService } from './post.service';
 import { Post as PostEntity } from './post.entity';
@@ -15,8 +23,8 @@ export class PostsController {
   }
 
   @Get()
-  findAll(): Promise<PostEntity[]> {
-    return this.postsService.findAll();
+  findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+    return this.postsService.findAll(page, limit);
   }
 
   @Get(':id')
