@@ -7,6 +7,7 @@ import {
   Body,
   Query,
   ParseIntPipe,
+  HttpStatus,
 } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { PostsService } from './post.service';
@@ -29,12 +30,24 @@ export class PostsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<PostEntity | null> {
+  findOne(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): Promise<PostEntity | null> {
     return this.postsService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  remove(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): Promise<void> {
     return this.postsService.remove(id);
   }
 
@@ -45,7 +58,11 @@ export class PostsController {
 
   @Get('author/:authorId')
   findByAuthor(
-    @Param('authorId', ParseIntPipe) authorId: number,
+    @Param(
+      'authorId',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    authorId: number,
   ): Promise<PostEntity[]> {
     return this.postsService.findByAuthor(authorId);
   }
