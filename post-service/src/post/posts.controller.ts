@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { PostsService } from './post.service';
@@ -28,13 +29,13 @@ export class PostsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<PostEntity | null> {
-    return this.postsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<PostEntity | null> {
+    return this.postsService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.postsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.postsService.remove(id);
   }
 
   @EventPattern('user_deleted')
@@ -43,7 +44,9 @@ export class PostsController {
   }
 
   @Get('author/:authorId')
-  findByAuthor(@Param('authorId') authorId: string): Promise<PostEntity[]> {
-    return this.postsService.findByAuthor(+authorId);
+  findByAuthor(
+    @Param('authorId', ParseIntPipe) authorId: number,
+  ): Promise<PostEntity[]> {
+    return this.postsService.findByAuthor(authorId);
   }
 }

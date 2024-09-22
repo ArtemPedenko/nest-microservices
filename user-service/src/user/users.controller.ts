@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Body,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 import { EventPattern, MessagePattern } from '@nestjs/microservices';
@@ -34,13 +42,13 @@ export class UsersController {
   }
 
   @Post(':id/deactivate')
-  async deactivate(@Param('id') id: string): Promise<User> {
-    return this.usersService.deactivate(+id);
+  async deactivate(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return this.usersService.deactivate(id);
   }
 
   @Post(':id/activate')
-  async activate(@Param('id') id: string): Promise<User> {
-    return this.usersService.activate(+id);
+  async activate(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return this.usersService.activate(id);
   }
 
   @EventPattern('post_created')
